@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>老虎机</title>
+	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/tiger.css">
+</head>
+<body>
+	<div id="screen">
+		<div id="score">
+			<div class="score">
+			 得  分<br><input type="text" value="0" readonly autocomplete=off>
+			</div>
+			<div class="score">
+			 余  额<br><input type="text" value="1000" readonly autocomplete=off>
+			</div>
+		</div>
+		<!-- <div class="fruit"></div> -->
+		<div id="rule">
+			<img src="img/dabao.png" height="50" width="50"><font size="5"> : X 50</font>
+			<img src="img/daqi.png" height="50" width="50"><font size="5"> : X 40</font>
+			<img src="img/xingxing.png" height="50" width="50"><font size="5"> : X 30</font>
+			<img src="img/xigua.png" height="50" width="50"><font size="5"> : X 20</font>
+			<img src="img/lingdang.png" height="50" width="50"><font size="5"> : X 20</font>
+			<img src="img/mangguo.png" height="50" width="50"><font size="5"> : X 15</font>
+			<img src="img/juzi.png" height="50" width="50"><font size="5"> : X 10</font>
+			<img src="img/pingguo.png" height="50" width="50"><font size="5"> : X 5</font>
+		</div>
+	</div>
+	
+	<div id="control">
+		<input type="button" value="start" id="start" onclick="start()">
+		<input type="button" value="reset" id="reset" onclick="resetFun();">
+		<div id="setScore"></div>
+	</div>
+<script type="text/javascript">
+	var count = -1;
+	var intervalId;
+	var funNum = 0;
+	var pdNum = 0;
+	var boolIn = true;
+	$(function(){
+		for(var i=0;i<24;i++){
+			$("#screen").append("<div class='fruit'></div>");
+			$(".fruit").eq(i).css("left",i*55);
+			if(i>=7){
+				$(".fruit").eq(i).css({left:330,top:(i-4)*55});
+				if(i>=12){
+					$(".fruit").eq(i).css({top:450,left:-(i-18)*55});
+					if(i>=19){
+						$(".fruit").eq(i).css({left:0,top:-(i-26)*55});
+					}
+				}
+			}
+		}
+	})
+	$(function(){
+		var str = "";
+		for(var i=0;i<8;i++){
+			switch(i){
+				case 0:str = "<img src='img/dabao.png' height='60' width='60' onclick='set(1);'>";break;
+				case 1:str = "<img src='img/daqi.png' height='60' width='60' onclick='set(2);'>";break;
+				case 2:str = "<img src='img/xingxing.png' height='60' width='60' onclick='set(3);'>";break;
+				case 3:str = "<img src='img/xigua.png' height='60' width='60' onclick='set(4);'>";break;
+				case 4:str = "<img src='img/lingdang.png' height='60' width='60' onclick='set(5);'>";break;
+				case 5:str = "<img src='img/mangguo.png' height='60' width='60' onclick='set(6);'>";break;
+				case 6:str = "<img src='img/juzi.png' height='60' width='60' onclick='set(7);'>";break;
+				case 7:str = "<img src='img/pingguo.png' height='60' width='60' onclick='set(8);'>";break;
+			}
+			$("#setScore").append("<div class='setFruit'></div>");
+			$(".setFruit").eq(i).append("<input type='text' readonly value='0' class='textSet'>");
+			$(".setFruit").eq(i).append(str);
+		}
+	})
+	function set(n){
+		var num = parseInt($(".textSet").eq(n-1).attr("value"));
+		if(!boolIn){
+			$(".textSet").each(function (){
+				$(this).attr("value",0);
+			});
+			$(".score:eq(1)>input").attr("value",parseInt($(".score:eq(1)>input").attr("value"))+parseInt($(".score:eq(0)>input").attr("value")));
+			$(".score:eq(0)>input").attr("value",0);
+			boolIn = true;
+		}else{
+			if(num<10){
+			$(".textSet").eq(n-1).attr("value",num+1);
+			$(".score:eq(1)>input").attr("value",parseInt($(".score:eq(1)>input").attr("value")-1));
+			}
+		}
+	}
+	function resetFun(){
+		var lost = $(".score:eq(1)>input");
+		$(".score:eq(1)>input").attr("value",parseInt($(".score:eq(1)>input").attr("value"))+parseInt($(".score:eq(0)>input").attr("value")));
+			$(".score:eq(0)>input").attr("value",0);
+		if(boolIn){
+			$(".textSet").each(function (){
+				lost.attr("value",parseInt(parseInt(lost.attr("value"))+parseInt($(this).attr("value"))));
+				$(this).attr("value",0);
+			});
+		}else{
+			$(".textSet").each(function (){
+				$(this).attr("value",0);
+			});
+		}
+	}
+	$(function(){
+		$(".fruit").each(function (index){
+			var strImg = "<img src='img/i"+index+".png' height='50' width='50' class='img'>"
+			$(this).append(strImg);
+		});
+	})
+	function run(){
+		boolIn = false;
+		pdNum++;
+		if(pdNum>funNum){
+			clearInterval(intervalId);
+			get();
+		}
+		$(".fruit").eq(count).css("border-width",1);
+		count++;
+		$(".fruit").eq(count).css("border-width",5);
+		if(count==23){
+			count = -1;
+		}
+	}
+	function start(){
+		var numSet = [];
+		$(".score:eq(1)>input").attr("value",parseInt($(".score:eq(1)>input").attr("value"))+parseInt($(".score:eq(0)>input").attr("value")));
+		$(".score:eq(0)>input").attr("value",0);
+		$(".textSet").each(function (i){
+			numSet[i] = parseInt($(this).attr("value"));
+		});
+		funNum = (Math.random()*100)+100;
+		if(numSet[0]!=0||numSet[1]!=0||numSet[2]!=0||numSet[3]!=0||
+			numSet[4]!=0||numSet[5]!=0||numSet[6]!=0||numSet[7]!=0){
+			if(boolIn){
+				pdNum = 0;
+				intervalId = setInterval(run,100);
+			}else{
+				$(".textSet").each(function (){
+					$(".score:eq(1)>input").attr("value",parseInt($(".score:eq(1)>input").attr("value")-parseInt($(this).attr("value"))));
+				});
+				pdNum = 0;
+				intervalId = setInterval(run,100);
+			}
+		}else{
+			alert("请下注");
+		}
+	}
+	function getGold0(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(6)").attr("value"))*10);
+	}
+	function getGold1(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(4)").attr("value"))*20);
+	}
+	function getGold2(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(0)").attr("value"))*25);
+	}
+	function getGold3(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(0)").attr("value"))*50);
+	}
+	function getGold4(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(7)").attr("value"))*5);
+	}
+	function getGold5(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(7)").attr("value"))*2);
+	}
+	function getGold6(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(5)").attr("value"))*15);
+	}
+	function getGold7(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(3)").attr("value"))*20);
+	}
+	function getGold8(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(3)").attr("value"))*10);
+	}
+	function good(){
+		
+	}
+	function getGold14(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(1)").attr("value"))*20);
+	}
+	function getGold15(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(1)").attr("value"))*40);
+	}
+	function getGold17(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(5)").attr("value"))*5);
+	}
+	function getGold19(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(2)").attr("value"))*30);
+	}
+	function getGold20(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(2)").attr("value"))*15);
+	}
+	function getGold23(){
+		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(4)").attr("value"))*10);
+	}
+	function get(){
+		switch(count+1){
+			case 0:getGold0();break;
+			case 1:getGold1();break;
+			case 2:getGold2();break;
+			case 3:getGold3();break;
+			case 4:getGold4();break;
+			case 5:getGold5();break;
+			case 6:getGold6();break;
+			case 7:getGold7();break;
+			case 8:getGold8();break;
+			case 9:good();break;
+			case 10:getGold4();break;
+			case 11:getGold0();break;
+			case 12:getGold0();break;
+			case 13:getGold1();break;
+			case 14:getGold14();break;
+			case 15:getGold15();break;
+			case 16:getGold4();break;
+			case 17:getGold17();break;
+			case 18:getGold6();break;
+			case 19:getGold19();break;
+			case 20:getGold20();break;
+			case 21:good();break;
+			case 22:getGold4();break;
+			case 23:getGold23();break;
+		}
+	}
+</script>
+
+</body>
+</html>

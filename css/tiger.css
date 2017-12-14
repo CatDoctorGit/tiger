@@ -1,0 +1,120 @@
+/*
+* @Author: CatDoctorGit
+* @Date:   2017-12-13 19:17:00
+* @Last Modified by:   CatDoctorGit
+* @Last Modified time: 2017-12-14 12:59:06
+*/
+#screen{
+	width: 400px;
+	height: 530px;
+	position: absolute;
+	left: 400px;
+	top: 100px;
+	border-radius: 7%;
+	background-image: url(../img/screen.jpg);
+	background-color: #cccccc;
+}
+#rule{
+	width: 250px;
+	height: 270px;
+	float: left;
+	border-radius: 3%;
+	position: relative;
+	top: 75px;
+	left: 75px;
+	background-color: gold;
+}
+#rule img{
+	position: relative;
+	top: 18px;
+	left: 5px;
+}
+#score{
+	width: 400px;
+	height: 100px;
+	/* background-color: gold; */
+}
+.score{
+	width: 70px;
+	height: 70px;
+	float: left;
+	position: relative;
+	top: 10px;
+	margin-right:65px; 
+	margin-left:65px; 
+	font-size: 20pt;
+	color: ghostwhite;
+	/* background-color: green; */
+}
+.score input{
+	width: 92%;
+	height: 35%;
+	text-align: right;
+	font-size: 14pt;
+	color: red;
+	background-color: black;
+}
+.fruit{
+	width: 50px;
+	height: 50px;
+	float: left;
+	border-radius: 8%;
+	margin: 10px 10px 10px 10px;
+	position: absolute;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	background-color: yellow;
+}
+#control{
+	width: 250px;
+	height: 530px;
+	border-radius: 7%;
+	position: absolute;
+	left: 800px;
+	top: 100px;
+	background-image: url(../img/screen.jpg);
+}
+#start{
+	width: 80px;
+	height: 80px;
+	background-color: yellow;
+	border-radius: 50%;
+	font-size: 20pt;
+	position: relative;
+	top: 30px;
+	left: 40px;
+	color: red;
+}
+#reset{
+	width: 80px;
+	height: 80px;
+	background-color: yellow;
+	border-radius: 50%;
+	font-size: 20pt;
+	position: relative;
+	top: 30px;
+	left: 50px;
+	color: red;
+}
+.setFruit{
+	width: 60px;
+	height: 80px;
+	background-color: red;
+	float: left;
+	margin-right: 30px;
+	margin-top: 10px;
+	position: relative;
+	left: 50px;
+	top: 50px;
+}
+.textSet{
+	width: 92%;
+	text-align: right;
+	color: red;
+	border-color: black;
+	background-color: black;
+}
+.img{
+	border-radius: 8%;
+}
