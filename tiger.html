@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/tiger.css">
 </head>
 <body>
+	<audio autoplay='autoplay' preload='auto'></audio>
 	<div id="screen">
 		<div id="score">
 			<div class="score">
@@ -19,13 +20,13 @@
 		<!-- <div class="fruit"></div> -->
 		<div id="rule">
 			<img src="img/dabao.png" height="50" width="50"><font size="5"> : X 50</font>
-			<img src="img/daqi.png" height="50" width="50"><font size="5"> : X 40</font>
-			<img src="img/xingxing.png" height="50" width="50"><font size="5"> : X 30</font>
-			<img src="img/xigua.png" height="50" width="50"><font size="5"> : X 20</font>
-			<img src="img/lingdang.png" height="50" width="50"><font size="5"> : X 20</font>
-			<img src="img/mangguo.png" height="50" width="50"><font size="5"> : X 15</font>
-			<img src="img/juzi.png" height="50" width="50"><font size="5"> : X 10</font>
-			<img src="img/pingguo.png" height="50" width="50"><font size="5"> : X 5</font>
+			<img src="img/daqi.png" height="50" width="50"><font size="5"> : X 30</font>
+			<img src="img/xingxing.png" height="50" width="50"><font size="5"> : X 20</font>
+			<img src="img/xigua.png" height="50" width="50"><font size="5"> : X 15</font>
+			<img src="img/lingdang.png" height="50" width="50"><font size="5"> : X 10</font>
+			<img src="img/mangguo.png" height="50" width="50"><font size="5"> : X 10</font>
+			<img src="img/juzi.png" height="50" width="50"><font size="5"> : X 5&nbsp&nbsp</font>
+			<img src="img/pingguo.png" class="ll" height="50" width="50"><font size="5"> : X 2</font>
 		</div>
 	</div>
 	
@@ -36,10 +37,15 @@
 	</div>
 <script type="text/javascript">
 	var count = -1;
+	var count1 = 0;
+	var count2 = 0;
+	var count3 = 0;
 	var intervalId;
 	var funNum = 0;
 	var pdNum = 0;
+	var goodNum = 0;
 	var boolIn = true;
+	var goodPd = true;
 	$(function(){
 		for(var i=0;i<24;i++){
 			$("#screen").append("<div class='fruit'></div>");
@@ -125,6 +131,8 @@
 		}
 	}
 	function start(){
+		$("audio").attr("src","music/zhuanazhuan.mp3");
+		$(".fruit").css("border-width",1);
 		var numSet = [];
 		$(".score:eq(1)>input").attr("value",parseInt($(".score:eq(1)>input").attr("value"))+parseInt($(".score:eq(0)>input").attr("value")));
 		$(".score:eq(0)>input").attr("value",0);
@@ -149,55 +157,81 @@
 		}
 	}
 	function getGold0(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(6)").attr("value"))*10);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(6)").attr("value"))*5);
 	}
 	function getGold1(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(4)").attr("value"))*20);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(4)").attr("value"))*10);
 	}
 	function getGold2(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(0)").attr("value"))*25);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(0)").attr("value"))*25);
 	}
 	function getGold3(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(0)").attr("value"))*50);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(0)").attr("value"))*50);
 	}
 	function getGold4(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(7)").attr("value"))*5);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(7)").attr("value"))*2);
 	}
 	function getGold5(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(7)").attr("value"))*2);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(7)").attr("value"))*1);
 	}
 	function getGold6(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(5)").attr("value"))*15);
+		
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(5)").attr("value"))*10);
 	}
 	function getGold7(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(3)").attr("value"))*20);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(3)").attr("value"))*15);
 	}
 	function getGold8(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(3)").attr("value"))*10);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(3)").attr("value"))*7);
 	}
 	function good(){
-		
+		goodNum = 0;
+		goodPd = true;
+		intervalId = setInterval(goodRun,200);
 	}
 	function getGold14(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(1)").attr("value"))*20);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(1)").attr("value"))*15);
 	}
 	function getGold15(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(1)").attr("value"))*40);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(1)").attr("value"))*30);
 	}
 	function getGold17(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(5)").attr("value"))*5);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(5)").attr("value"))*5);
 	}
 	function getGold19(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(2)").attr("value"))*30);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(2)").attr("value"))*20);
 	}
 	function getGold20(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(2)").attr("value"))*15);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(2)").attr("value"))*10);
 	}
 	function getGold23(){
-		$(".score:eq(0)>input").attr("value",parseInt($(".textSet:eq(4)").attr("value"))*10);
+		$(".score:eq(0)>input").attr("value",parseInt($(".score:eq(0)>input").attr("value"))+parseInt($(".textSet:eq(4)").attr("value"))*5);
 	}
-	function get(){
-		switch(count+1){
+	function goodRun(){
+		$(".fruit").css("border-width",1);
+		count1 = parseInt( Math.random()*24);
+		count2 = parseInt( Math.random()*24);
+		count3 = parseInt( Math.random()*24);
+		if(count1==count2||count1==count3||count2==count3||count1==9||count1==21||
+			count2==9||count2==21||count3==9||count3==21){
+			goodPd = false;
+		}else{
+			goodPd = true;
+		}
+		if(goodPd){
+			goodNum++;
+			$(".fruit").eq(count1).css("border-width",5);
+			$(".fruit").eq(count2).css("border-width",5);
+			$(".fruit").eq(count3).css("border-width",5);
+			if(goodNum>(Math.random()*20)+20){
+				goodGet();
+				$("audio").attr("src","");
+				clearInterval(intervalId);
+			}
+		}
+	}
+	function goodGet(){
+		switch(count1){
 			case 0:getGold0();break;
 			case 1:getGold1();break;
 			case 2:getGold2();break;
@@ -207,7 +241,6 @@
 			case 6:getGold6();break;
 			case 7:getGold7();break;
 			case 8:getGold8();break;
-			case 9:good();break;
 			case 10:getGold4();break;
 			case 11:getGold0();break;
 			case 12:getGold0();break;
@@ -219,9 +252,84 @@
 			case 18:getGold6();break;
 			case 19:getGold19();break;
 			case 20:getGold20();break;
-			case 21:good();break;
 			case 22:getGold4();break;
 			case 23:getGold23();break;
+		}
+		switch(count2){
+			case 0:getGold0();break;
+			case 1:getGold1();break;
+			case 2:getGold2();break;
+			case 3:getGold3();break;
+			case 4:getGold4();break;
+			case 5:getGold5();break;
+			case 6:getGold6();break;
+			case 7:getGold7();break;
+			case 8:getGold8();break;
+			case 10:getGold4();break;
+			case 11:getGold0();break;
+			case 12:getGold0();break;
+			case 13:getGold1();break;
+			case 14:getGold14();break;
+			case 15:getGold15();break;
+			case 16:getGold4();break;
+			case 17:getGold17();break;
+			case 18:getGold6();break;
+			case 19:getGold19();break;
+			case 20:getGold20();break;
+			case 22:getGold4();break;
+			case 23:getGold23();break;
+		}
+		switch(count3){
+			case 0:getGold0();break;
+			case 1:getGold1();break;
+			case 2:getGold2();break;
+			case 3:getGold3();break;
+			case 4:getGold4();break;
+			case 5:getGold5();break;
+			case 6:getGold6();break;
+			case 7:getGold7();break;
+			case 8:getGold8();break;
+			case 10:getGold4();break;
+			case 11:getGold0();break;
+			case 12:getGold0();break;
+			case 13:getGold1();break;
+			case 14:getGold14();break;
+			case 15:getGold15();break;
+			case 16:getGold4();break;
+			case 17:getGold17();break;
+			case 18:getGold6();break;
+			case 19:getGold19();break;
+			case 20:getGold20();break;
+			case 22:getGold4();break;
+			case 23:getGold23();break;
+		}
+	}
+	function get(){
+		switch(count+1){
+			case 0:getGold0();$("audio").attr("src","music/juzi.wav");break;
+			case 1:getGold1();$("audio").attr("src","music/lingdang.wav");break;
+			case 2:getGold2();$("audio").attr("src","music/dabao.wav");break;
+			case 3:getGold3();$("audio").attr("src","music/dabao.wav");break;
+			case 4:getGold4();$("audio").attr("src","music/pingguo.wav");break;
+			case 5:getGold5();$("audio").attr("src","music/pingguo.wav");break;
+			case 6:getGold6();$("audio").attr("src","music/mangguo.wav");break;
+			case 7:getGold7();$("audio").attr("src","music/xigua.wav");break;
+			case 8:getGold8();$("audio").attr("src","music/xigua.wav");break;
+			case 9:$("audio").attr("src","music/haoyunlai.mp3");setTimeout(good(),1000);break;
+			case 10:getGold4();$("audio").attr("src","music/pingguo.wav");break;
+			case 11:getGold0();$("audio").attr("src","music/juzi.wav");break;
+			case 12:getGold0();$("audio").attr("src","music/juzi.wav");break;
+			case 13:getGold1();$("audio").attr("src","music/lingdang.wav");break;
+			case 14:getGold14();$("audio").attr("src","music/daqi.wav");break;
+			case 15:getGold15();$("audio").attr("src","music/daqi.wav");break;
+			case 16:getGold4();$("audio").attr("src","music/pingguo.wav");break;
+			case 17:getGold17();$("audio").attr("src","music/mangguo.wav");break;
+			case 18:getGold6();$("audio").attr("src","music/mangguo.wav");break;
+			case 19:getGold19();$("audio").attr("src","music/shuangxing.wav");break;
+			case 20:getGold20();$("audio").attr("src","music/daqi.wav");break;
+			case 21:$("audio").attr("src","music/haoyunlai.mp3");setTimeout(good(),1000);break;
+			case 22:getGold4();$("audio").attr("src","music/pingguo.wav");break;
+			case 23:getGold23();$("audio").attr("src","music/lingdang.wav");break;
 		}
 	}
 </script>
